@@ -1,2 +1,2 @@
 # ErlangDump
-Dumping ground for miscellaneous Erlang scripts
+Dumping ground for miscellaneous [Erlang](https://www.erlang.org/) scripts
