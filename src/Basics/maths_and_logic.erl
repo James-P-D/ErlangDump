@@ -1,8 +1,8 @@
 % TO RUN....
 % cd("C:\\Users\\jdorr\\Desktop\\Dev\\ErlangDump\\src\\Basics\\").
-% c("maths.erl").
+% c("maths_and_logic.erl").
 
--module(maths).
+-module(maths_and_logic).
 
 -export([
     main/0,
