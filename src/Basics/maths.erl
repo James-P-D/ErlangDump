@@ -15,7 +15,12 @@
     integer_modulus/2,
     logarithm/1,
     squared/1,
-    dice_roll/0
+    dice_roll/0,
+    same_value_and_type/2,
+    diff_value_and_type/2,
+    same_value_disregard_type/2,
+    not_equal/2,
+    at_school/1
     ]).
 
 add(A, B) ->
@@ -57,11 +62,16 @@ diff_value_and_type(A, B) ->
 % diff_value_and_type(4, 4.0) is true
 
 same_value_disregard_type(A, B) ->
-    A == B
+    A == B.
 % same_value_disregard_type(4, 4.0) is true   
 
 not_equal(A, B) ->
-    A /=B
-%STOPPED AT 12:20 
+    A /=B.
+
+% > < >= =< and or not xor
+     
+at_school(Age) ->
+    (Age >=5) and (Age =<16).
+    
 main() ->
     add(2, 4, 6, 8).
