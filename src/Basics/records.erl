@@ -10,9 +10,9 @@
 
 main() -> 
     Sally = #customer{name="Sally Smith", balence=12.34},
-    Sally2 = Sally#customer{bal = 50},
-    io.fwrite("~p owes ~p\n", [Sally#customer.name, Sally#customer.balence]),
-    io.fwrite("~p owes ~p\n", [Sally2#customer.name, Sally2#customer.balence]),
+    Sally2 = Sally#customer{balence = 50},
+    io:fwrite("~p owes ~p\n", [Sally#customer.name, Sally#customer.balence]), 
+    io:fwrite("~p owes ~p\n", [Sally2#customer.name, Sally2#customer.balence])
     .
     
     
