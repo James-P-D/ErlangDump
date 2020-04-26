@@ -28,9 +28,6 @@ tail_rec_total_array([], N) ->
 tail_rec_total_array([Head|Tail], N) ->
     %io.fwrite("N: ~p\n", [N]),
     tail_rec_total_array(Tail, Head + N).
-
-
-37 MINUTES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
 main() -> 
     %factorial(5)
