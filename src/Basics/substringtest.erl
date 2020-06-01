@@ -4,7 +4,7 @@
 % substringtest:search([N, "abc", "xyzabcdef"]).   % Returns true, N = 3
 % substringtest:search([N, "abc", "xyzabcdef"]).   % Returns false, N = -1
 %
-% substringtest:get_nth(substringtest:my_list(), 3).      % Returns [13,14,15,16]
+% substringtest:get_nth(substringtest:my_list(), 3).      % Returns [13, 14, 15, 16]
 % substringtest:get_row(substringtest:my_list(), 1).      % Returns [5, 6, 7, 8]
 % substringtest:get_col(substringtest:my_list(), 1).      % Returns [2, 6, 10, 14]
 % substringtest:get_diag(substringtest:my_list(), 1, 1).  % Returns [6, 11, 16, []]
@@ -32,18 +32,21 @@ sub_string(N, Str1, Str2) ->                        % In all other scenarios
 
 %--------------------------------------------------------------------------------------------------------------------------
 
+% Display list of chars
 display_char([]) -> [];
 display_char([Head|Tail]) -> io:fwrite("~c ", [Head]), display_char(Tail).
 display_char_nl(X) -> display_char(X), io:fwrite("~n").
 
 %--------------------------------------------------------------------------------------------------------------------------
 
+% Display list of ints
 display_int([]) -> io:fwrite("~n"), [];
 display_int([Head|Tail]) -> io:fwrite("'~B' ", [Head]), display_int(Tail).
 display_int_nl(X) -> display_int(X), io:fwrite("~n").
 
 %--------------------------------------------------------------------------------------------------------------------------
 
+% Searches for Word in Sentence. Displays textual confirmation on stdout including offset of substring, or -1 if not found
 search(Word, Sentence) ->    
     N = sub_string(0, Word, Sentence),
     case N of
@@ -52,7 +55,8 @@ search(Word, Sentence) ->
     end.
     
 %--------------------------------------------------------------------------------------------------------------------------
-    
+
+% Default list.     
 my_list() -> [[1,   2,  3,  4],
               [5,   6,  7,  8],
               [9,  10, 11, 12],
@@ -60,6 +64,7 @@ my_list() -> [[1,   2,  3,  4],
 
 %--------------------------------------------------------------------------------------------------------------------------
 
+% Gets Nth element
 get_nth([], _, _) -> [];
 get_nth([Head|Tail], N, M) -> case (N == M) of
                                   true -> Head;
@@ -69,6 +74,7 @@ get_nth(L, N) -> get_nth(L, N, 0).
 
 %--------------------------------------------------------------------------------------------------------------------------
 
+% Gets specific row
 get_row([], _, _) -> [];
 get_row([Head|Tail], N, M) -> case (N == M) of
                                   true -> Head;
@@ -78,11 +84,13 @@ get_row(L, N) -> get_row(L, N, 0).
 
 %--------------------------------------------------------------------------------------------------------------------------
 
+% Gets specific column
 get_col([], _) -> [];
-get_col([Head|Tail], N) -> [get_nth(Head, N)|get_col(Tail, N)].
+get_col([Head|Tail], N) -> [get_nth(Head, N) | get_col(Tail, N)].
 
 %--------------------------------------------------------------------------------------------------------------------------
 
+% Gets specific diagonal line
 get_diag([], _, _) -> [];
 get_diag(L, N, M) -> [get_nth(get_row(L, N), M) | get_diag(tl(L), N, M+1)].
 
