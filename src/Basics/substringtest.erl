@@ -47,12 +47,12 @@ display_int_nl(X) -> display_int(X), io:fwrite("~n").
 %--------------------------------------------------------------------------------------------------------------------------
 
 % Searches for Word in Sentence. Displays textual confirmation on stdout including offset of substring, or -1 if not found
-search(Word, Sentence) ->    
-    N = sub_string(0, Word, Sentence),
-    case N of
-        -1 -> io:fwrite("Not a match!~n");
-        _ -> io:fwrite("N = ~B~n", [N]), io:fwrite("Match!~n")
-    end.
+%search(Word, Sentence) ->    
+%    N = sub_string(0, Word, Sentence),
+%    case N of
+%        -1 -> io:fwrite("Not a match!~n");
+%        _ -> io:fwrite("N = ~B~n", [N]), io:fwrite("Match!~n")
+%    end.
     
 %--------------------------------------------------------------------------------------------------------------------------
 
@@ -96,3 +96,26 @@ get_diag(L, N, M) -> [get_nth(get_row(L, N), M) | get_diag(tl(L), N, M+1)].
 
 %--------------------------------------------------------------------------------------------------------------------------
 
+search_rows(L1, L2) -> {-1, -1}.
+
+search_cols(_, _, _, _) -> {-1, -1, -1, -1}.
+
+search_diags(_, _, _, _) -> {-1, -1, -1, -1}.
+
+sub_search(L1, L2) -> {X, Y} = search_rows(L1, L2),
+                      if (X =/= -1) and (Y =/= -1) -> {X, Y, X, Y+length(L1)};
+                          true -> {-1, -1, -1, -1}
+                      end.
+
+%sub_search(L1, L2) -> case search_rows(L1, L2, X, Y) of
+%                          true -> {X, Y, X+length(L1), Y};
+%                          false -> case search_cols(L1, L2, X, Y) of
+%                                       true -> {X, Y, X, Y+length(L1)};
+%                                       false -> case search_diags(L1, L2, X, Y) of
+%                                                    true -> {X, Y, X+length(L1), Y+length(L1)};
+%                                                    false -> {-1, -1, -1, -1}
+%                                                end
+%                                   end
+%                      end.
+
+search(L1) -> sub_search(L1, my_list()).

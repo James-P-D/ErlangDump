@@ -26,5 +26,6 @@ Mostly after watching [Derek Banas' Erlang Tutorial on YouTube](https://www.yout
 
 ## Misc
 
-Searching for substrings. Used when creating [WordSearch application](https://github.com/James-P-D/WordSearch)  
-[substringtest.erl](https://github.com/James-P-D/ErlangDump/blob/master/src/Basics/substringtest.erl)  
+[substringtest.erl](https://github.com/James-P-D/ErlangDump/blob/master/src/Basics/substringtest.erl) Searching for substrings.. used when creating [WordSearch application](https://github.com/James-P-D/WordSearch)  
+
+
