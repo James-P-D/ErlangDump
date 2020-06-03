@@ -97,7 +97,10 @@ get_col([Head|Tail], N) -> Nth = get_nth(Head, N),
 
 % Gets specific diagonal line
 get_diag([], _, _) -> [];
-get_diag(L, N, M) -> [get_nth(get_row(L, N), M) | get_diag(tl(L), N, M+1)].
+get_diag(L, N, M) -> Nth = get_nth(get_row(L, N), M),
+                     if (Nth == []) -> [];
+                         true -> [Nth | get_diag(tl(L), N, M+1)]
+                     end.
 
 %--------------------------------------------------------------------------------------------------------------------------
 
@@ -122,11 +125,30 @@ search_cols(L1, L2) -> search_cols(L1, L2, 0).
 
 %--------------------------------------------------------------------------------------------------------------------------
 
+search_diags(_, [], _, _) -> {-1, -1};
+search_diags(L1, L2, Row, Col) -> WholeDiag = get_diag(L2, Row, Col),
+                                  if (WholeDiag == []) -> {-1, -1};
+                                      true -> RowAndCol = sub_string(0, L1, WholeDiag),
+                                              if (RowAndCol =/= -1) -> {RowAndCol, RowAndCol};
+                                                  true -> if (Col > 0) -> search_diags(L1, L2, Row, Col - 1);
+                                                          true -> if (Row == (length(L2) - 1)) -> {-1, -1};
+                                                                      true -> search_diags(L1, L2, Row + 1, Col)
+                                                                  end
+                                                          end
+                                              end
+                                  end.
+search_diags(L1, L2) -> search_diags(L1, L2, 0, length(hd(L2)) - 1).
+
+%--------------------------------------------------------------------------------------------------------------------------
+
 sub_search(L1, L2) -> {Row1, Col1} = search_rows(L1, L2),
                       if (Row1 =/= -1) and (Col1 =/= -1) -> {Row1, Col1, Row1, Col1 + length(L1)};
                           true -> {Row2, Col2} = search_cols(L1, L2),
                                   if (Row2 =/= -1) and (Col2 =/= -1) -> {Row2, Col2, Row2 + length(L1), Col2};
-                                      true -> {-1, -1, -1, -1}
+                                      true -> {Row3, Col3} = search_diags(L1, L2),
+                                          if (Row3 =/= -1) and (Col3 =/= -1) -> {Row3, Col3, Row3 + length(L1), Col3 + length(L1)};
+                                              true -> {-1, -1, -1, -1}
+                                          end
                                   end
                       end.
 
