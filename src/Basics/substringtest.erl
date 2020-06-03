@@ -129,7 +129,7 @@ search_diags(_, [], _, _) -> {-1, -1};
 search_diags(L1, L2, Row, Col) -> WholeDiag = get_diag(L2, Row, Col),
                                   if (WholeDiag == []) -> {-1, -1};
                                       true -> RowAndCol = sub_string(0, L1, WholeDiag),
-                                              if (RowAndCol =/= -1) -> {RowAndCol, RowAndCol};
+                                              if (RowAndCol =/= -1) -> {Row + RowAndCol, Col + RowAndCol};
                                                   true -> if (Col > 0) -> search_diags(L1, L2, Row, Col - 1);
                                                           true -> if (Row == (length(L2) - 1)) -> {-1, -1};
                                                                       true -> search_diags(L1, L2, Row + 1, Col)
