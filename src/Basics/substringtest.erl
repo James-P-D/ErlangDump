@@ -8,6 +8,8 @@
 % substringtest:get_row(substringtest:my_list(), 1).      % Returns [5, 6, 7, 8]
 % substringtest:get_col(substringtest:my_list(), 1).      % Returns [2, 6, 10, 14]
 % substringtest:get_diag(substringtest:my_list(), 1, 1).  % Returns [6, 11, 16, []]
+%
+% substringtest:search([1,2,3]).
 
 -module(substringtest).
 -compile(export_all).
@@ -86,7 +88,10 @@ get_row(L, N) -> get_row(L, N, 0).
 
 % Gets specific column
 get_col([], _) -> [];
-get_col([Head|Tail], N) -> [get_nth(Head, N) | get_col(Tail, N)].
+get_col([Head|Tail], N) -> Nth = get_nth(Head, N),
+                           if (Nth == []) -> [];
+                               true -> [Nth | get_col(Tail, N)]
+                           end.
 
 %--------------------------------------------------------------------------------------------------------------------------
 
@@ -96,15 +101,33 @@ get_diag(L, N, M) -> [get_nth(get_row(L, N), M) | get_diag(tl(L), N, M+1)].
 
 %--------------------------------------------------------------------------------------------------------------------------
 
-search_rows(L1, L2) -> {-1, -1}.
+search_rows(_, [], _) -> {-1, -1};
+search_rows(L1, [Head|Tail], Row) -> Col = sub_string(0, L1, Head),
+                                     if (Col == -1) -> search_rows(L1, Tail, Row + 1);
+                                         true -> {Row, Col}
+                                     end.
+search_rows(L1, L2) -> search_rows(L1, L2, 0).
 
-search_cols(_, _, _, _) -> {-1, -1, -1, -1}.
+%--------------------------------------------------------------------------------------------------------------------------
 
-search_diags(_, _, _, _) -> {-1, -1, -1, -1}.
+search_cols(_, [], _) -> {-1, -1};
+search_cols(L1, L2, Col) -> WholeColumn = get_col(L2, Col),
+                            if (WholeColumn == []) -> {-1, -1};
+                                true -> Row = sub_string(0, L1, WholeColumn),
+                                        if (Row == -1) -> search_cols(L1, L2, Col + 1);
+                                            true -> {Row, Col}
+                                        end
+                            end.
+search_cols(L1, L2) -> search_cols(L1, L2, 0).
 
-sub_search(L1, L2) -> {X, Y} = search_rows(L1, L2),
-                      if (X =/= -1) and (Y =/= -1) -> {X, Y, X, Y+length(L1)};
-                          true -> {-1, -1, -1, -1}
+%--------------------------------------------------------------------------------------------------------------------------
+
+sub_search(L1, L2) -> {Row1, Col1} = search_rows(L1, L2),
+                      if (Row1 =/= -1) and (Col1 =/= -1) -> {Row1, Col1, Row1, Col1 + length(L1)};
+                          true -> {Row2, Col2} = search_cols(L1, L2),
+                                  if (Row2 =/= -1) and (Col2 =/= -1) -> {Row2, Col2, Row2 + length(L1), Col2};
+                                      true -> {-1, -1, -1, -1}
+                                  end
                       end.
 
 %sub_search(L1, L2) -> case search_rows(L1, L2, X, Y) of
