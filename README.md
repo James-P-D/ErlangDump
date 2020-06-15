@@ -27,5 +27,5 @@ Mostly after watching [Derek Banas' Erlang Tutorial on YouTube](https://www.yout
 ## Misc
 
 [substringtest.erl](https://github.com/James-P-D/ErlangDump/blob/master/src/Basics/substringtest.erl) Searching for substrings.. used when creating [WordSearch application](https://github.com/James-P-D/WordSearch)  
-
+[arraytest.erl](https://github.com/James-P-D/ErlangDump/blob/master/src/Basics/arraytest.erl) Couple of tests for creating arrays. Only used lists when learning language.  
 
